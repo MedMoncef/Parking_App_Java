@@ -13,6 +13,8 @@ import dao.ScolariteImpl;
 import javax.swing.JOptionPane;
 import presentation.TableModele;
 import metier.entity.*;
+import org.mindrot.jbcrypt.BCrypt;
+
 public class Modifier_Client extends javax.swing.JFrame {
 IScolarite action=new ScolariteImpl();
     TableModele me=new TableModele();
@@ -174,20 +176,20 @@ IScolarite action=new ScolariteImpl();
            String selectedNom = String.valueOf(me.getValueAt(ligne, 1));
            String selectedPrenom = String.valueOf(me.getValueAt(ligne, 2));
            String selectedEmail = String.valueOf(me.getValueAt(ligne, 3));
-           String selectedPassword = String.valueOf(me.getValueAt(ligne, 4));
            String selectedRole = String.valueOf(me.getValueAt(ligne, 5));
 
            nom.setText(selectedNom);
            prenom.setText(selectedPrenom);
            email.setText(selectedEmail);
-           password.setText(selectedPassword);
            role.setSelectedItem(selectedRole);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        user e=new user(nom.getText(), prenom.getText(), email.getText(), password.getText(), role.getSelectedItem().toString());
-        action.modifierEtudiant(nom.getText(),prenom.getText(),email.getText(), password.getText(), role.getSelectedItem().toString(),selectedid);
+        String password1 = password.getText();
+        String hashedPassword = BCrypt.hashpw(password1, BCrypt.gensalt());
+        user e=new user(nom.getText(), prenom.getText(), email.getText(), hashedPassword, role.getSelectedItem().toString());
+        action.modifierEtudiant(nom.getText(),prenom.getText(),email.getText(), hashedPassword, role.getSelectedItem().toString(),selectedid);
         JOptionPane.showMessageDialog(null, "Modification avec succès");
         me.chargerTable(action.getAllEtudiant());
     }//GEN-LAST:event_jButton1ActionPerformed

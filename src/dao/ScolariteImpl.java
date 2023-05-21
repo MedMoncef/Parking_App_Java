@@ -68,6 +68,36 @@ public class ScolariteImpl implements IScolarite{
         return liste;
         
     }
+    //=================================================================================
+        @Override
+    public List<parkingspots> getAllParkings()
+    {
+        Connection con = Connexion.getConnect();
+        List <parkingspots> liste=new ArrayList<>();
+        try
+        {
+            PreparedStatement ps = con.prepareStatement("select * from parkingspots");
+            ResultSet rs=ps.executeQuery();
+            while(rs.next())
+            {
+                parkingspots e=new parkingspots();
+                e.setId(rs.getInt(1));
+                e.setStatus(rs.getString(2));
+                e.setEtage(rs.getString(3));
+
+                liste.add(e);
+               
+            }
+            
+        }
+         catch(SQLException e1)
+        {
+            e1.printStackTrace();
+        }
+        return liste;
+        
+    }
+    //=================================================================================
     @Override
     public void modifierEtudiant(String nom,String prenom,String email,String password, String role,int id)
     {

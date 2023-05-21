@@ -5,17 +5,42 @@
  */
 package presentation;
 
+import dao.IScolarite;
+import dao.ScolariteImpl;
+import javax.swing.JOptionPane;
+import presentation.TableParkingspots;
+import metier.entity.*;
+import org.mindrot.jbcrypt.BCrypt;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import static presentation.Login_frame.idextract;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import dao.Connexion;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 /**
  *
  * @author lenovo
  */
 public class Reservation extends javax.swing.JFrame {
-
+    IScolarite action=new ScolariteImpl();
+    TableParkingspots me=new TableParkingspots();
+    Connection conn = null;
+    int parkingid;
+    int clientid;
     /**
      * Creates new form Reservation
      */
     public Reservation() {
         initComponents();
+        me.chargerTable(action.getAllParkings());
     }
 
     /**
@@ -27,11 +52,129 @@ public class Reservation extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        Prix = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        Date_Debut = new com.toedter.calendar.JDateChooser();
+        Date_Fin = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jTable1.setModel(me);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 800, 220));
+
+        Prix.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrixActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Prix, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 300, 30));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Reservation");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 150, -1));
+
+        jButton1.setText("Reserve");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 150, 90, 30));
+
+        jButton2.setText("Annuler");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 150, 90, 30));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Date Debut :");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        getContentPane().add(Date_Debut, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 300, 30));
+        getContentPane().add(Date_Fin, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 300, 30));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Date Fin :");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Prix :");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+    int ligne = jTable1.getSelectedRow();
+    parkingid = Integer.parseInt(String.valueOf(me.getValueAt(ligne, 0)));
+    clientid = idextract;
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void PrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrixActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PrixActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+                this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dateDebut = Date_Debut.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate dateFin = Date_Fin.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        long difference = Duration.between(dateDebut.atStartOfDay(), dateFin.atStartOfDay()).toHours();
+        int duree = (int) difference;
+
+        double PrixR = duree * 1.5;
+        Prix.setText(Double.toString(PrixR));
+
+        try {
+            conn = Connexion.getConnect();
+            PreparedStatement pst = conn.prepareStatement("INSERT INTO reservation (PS_ID_R, C_ID, Date_Debut, Date_Fin, Duree, Prix) VALUES (?, ?, ?, ?, ?, ?)");
+            pst.setInt(1, parkingid);
+            pst.setInt(2, clientid);
+            pst.setString(3, dateDebut.format(dateFormatter));
+            pst.setString(4, dateFin.format(dateFormatter));
+            pst.setInt(5, duree);
+            pst.setDouble(6, PrixR);
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Reservation added successfully!");
+
+            // Reset fields
+            Date_Debut.setDate(null);
+            Date_Fin.setDate(null);
+            
+            new UserP().setVisible(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to add reservation.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -69,5 +212,16 @@ public class Reservation extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser Date_Debut;
+    private com.toedter.calendar.JDateChooser Date_Fin;
+    private javax.swing.JTextField Prix;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import dao.Connexion;
 import metier.entity.*;
-        
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -184,8 +184,9 @@ if (!nom.getText().isEmpty() || !prenom.getText().isEmpty() || !password.getText
                     String prenom1 = prenom.getText();
                     String email1 = emailText;
                     String password1 = password.getText();
+                    String hashedPassword = BCrypt.hashpw(password1, BCrypt.gensalt());
                     String jComboBox1 = jComboBox.getSelectedItem().toString();
-                    user user1 = new user(nom1, prenom1, email1, password1, jComboBox1);
+                    user user1 = new user(nom1, prenom1, email1, hashedPassword, jComboBox1);
                     ps = con.prepareStatement("insert into user values(?,?,?,?,?,?)");
                     ps.setInt(1, user1.getId());
                     ps.setString(2, user1.getNom());
@@ -195,6 +196,10 @@ if (!nom.getText().isEmpty() || !prenom.getText().isEmpty() || !password.getText
                     ps.setString(6, user1.getRole());
                     ps.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Inscription avec succès!");
+                    
+                    // Redirect to admin.java
+                    new Admin().setVisible(true);
+                    this.dispose();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

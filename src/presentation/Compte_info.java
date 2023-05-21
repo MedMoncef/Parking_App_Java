@@ -13,6 +13,7 @@ import static presentation.Login_frame.idextract;
 import dao.ScolariteImpl;
 import javax.swing.JOptionPane;
 import metier.entity.*;
+import org.mindrot.jbcrypt.BCrypt;
 import presentation.TableModele;
 
 /**
@@ -35,7 +36,6 @@ IScolarite action=new ScolariteImpl();
             nom.setText(User.getNom());
             prenom.setText(User.getPrenom());
             email.setText(User.getEmail());
-            password.setText(User.getPassword());
     }
 
     /**
@@ -183,8 +183,10 @@ IScolarite action=new ScolariteImpl();
 
     private void ModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifierActionPerformed
         // TODO add your handling code here:
-        user e=new user(nom.getText(), prenom.getText(), email.getText(), password.getText(), role.getSelectedItem().toString());
-        action.modifierEtudiant(nom.getText(),prenom.getText(),email.getText(), password.getText(), role.getSelectedItem().toString(),idextract);
+        String password1 = password.getText();
+        String hashedPassword = BCrypt.hashpw(password1, BCrypt.gensalt());
+        user e=new user(nom.getText(), prenom.getText(), email.getText(), hashedPassword, role.getSelectedItem().toString());
+        action.modifierEtudiant(nom.getText(),prenom.getText(),email.getText(), hashedPassword, role.getSelectedItem().toString(),idextract);
         JOptionPane.showMessageDialog(null, "Modification avec succès");
         me.chargerTable(action.getAllEtudiant());
     }//GEN-LAST:event_ModifierActionPerformed

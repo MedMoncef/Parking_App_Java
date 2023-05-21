@@ -11,11 +11,12 @@ package presentation;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
-import metier.entity.Client;
-import metier.entity.user;
-public class TableModele extends AbstractTableModel{
-    List<user> etudiants=new ArrayList<>();
-    String titre[]={"Id","Nom","Prenom","Email","Password","Role"};
+import metier.entity.parkingspots;
+
+import metier.entity.parkingspots;
+public class TableParkingspots extends AbstractTableModel{
+    List<parkingspots> parkingspots=new ArrayList<>();
+    String titre[]={"PS_ID","Status","Etage"};
     
     @Override
     public int getColumnCount()
@@ -25,24 +26,18 @@ public class TableModele extends AbstractTableModel{
     @Override
     public int getRowCount()
     {
-        return etudiants.size();
+        return parkingspots.size();
     }
     @Override
-    public Object getValueAt(int l,int c)
+    public Object getValueAt(int l, int c)
     {
         switch(c){
             case 0:
-                return etudiants.get(l).getId();
+                return parkingspots.get(l).getId();
             case 1:
-                return etudiants.get(l).getNom();
+                return parkingspots.get(l).getStatus();
             case 2:
-                return etudiants.get(l).getPrenom();
-            case 3:
-                return etudiants.get(l).getEmail();
-            case 4:
-                return etudiants.get(l).getPassword();
-            case 5:
-                return etudiants.get(l).getRole();
+                return parkingspots.get(l).getEtage();
         }
         return null;
     }
@@ -53,9 +48,9 @@ public class TableModele extends AbstractTableModel{
         return titre[column];
     }
     
-    public void chargerTable(List<user> liste)
+    public void chargerTable(List<parkingspots> liste)
     {
-        etudiants=liste;
+        parkingspots=liste;
         fireTableDataChanged();
     }
 }

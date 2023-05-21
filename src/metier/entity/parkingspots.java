@@ -8,73 +8,43 @@ package metier.entity;
  *
  * @author Halaili
  */
-public class user {
-    private int id;
-    private String nom;
-    private String prenom;
-    private String email;
-    private String password;
-    private String role;
+public class parkingspots {
+    private int PS_ID;
+    private String Status;
+    private String Etage;
 
-    public user()
+    public parkingspots()
     {
         
     }
-public user(String nom,String prenom,String email,String password, String role)
+public parkingspots(String Status,String Etage)
 {
-    this.nom=nom;
-    this.prenom=prenom;
-    this.email=email;
-    this.password=password;
-    this.role=role;
+    this.Status=Status;
+    this.Etage=Etage;
 }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int PS_ID) {
+        this.PS_ID = PS_ID;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setStatus(String Status) {
+        this.Status = Status;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setEtage(String Etage) {
+        this.Etage = Etage;
     }
 
     public int getId() {
-        return id;
+        return PS_ID;
     }
 
-    public String getNom() {
-        return nom;
+    public String getStatus() {
+        return Status;
     }
 
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRole() {
-        return role;
+    public String getEtage() {
+        return Etage;
     }
 
 }

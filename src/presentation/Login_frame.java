@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import dao.Connexion;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -117,44 +118,49 @@ public class Login_frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:                                        
-    if (email.getText().isEmpty() || password.getText().isEmpty()) {
+        // TODO add your handling code here:      
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Erreur de saisie!");
             return;
         }
-    
+
         try {
             con = Connexion.getConnect();
-            ps = con.prepareStatement("SELECT * FROM user WHERE email=? AND password =?");
+            ps = con.prepareStatement("SELECT * FROM user WHERE email=?");
             ps.setString(1, email.getText());
-            ps.setString(2, password.getText());
             rs = ps.executeQuery();
-        
+
             if (rs.next()) {
+                String hashedPassword = rs.getString("password");
                 String userType = rs.getString("Type");
                 idextract = rs.getInt("id");
-                JOptionPane.showMessageDialog(null, "Connect avec succès!");
-            
-                if (userType.equals("Admin")) {
-                    java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                            new Admin().setVisible(true);
-                        }
-                    });
-                } else if (userType.equals("User")) {
-                    java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                            // open user page of your choice
-                            new UserP().setVisible(true);
-                        }
-                    });
+
+                if (BCrypt.checkpw(password.getText(), hashedPassword)) {
+                    JOptionPane.showMessageDialog(null, "Connecté avec succès!");
+
+                    if (userType.equals("Admin")) {
+                        java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                new Admin().setVisible(true);
+                            }
+                        });
+                    } else if (userType.equals("User")) {
+                        java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                // open user page of your choice
+                                new UserP().setVisible(true);
+                            }
+                        });
+                    }
+
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Connexion refusée!");
                 }
-            
-                this.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(null, "Connexion refusée!");
             }
- 
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
