@@ -76,7 +76,8 @@ public class ScolariteImpl implements IScolarite{
         List <parkingspots> liste=new ArrayList<>();
         try
         {
-            PreparedStatement ps = con.prepareStatement("select * from parkingspots");
+            PreparedStatement ps = con.prepareStatement("select * from parkingspots WHERE Status = ?");
+            ps.setString(1, "Available");
             ResultSet rs=ps.executeQuery();
             while(rs.next())
             {
@@ -97,6 +98,104 @@ public class ScolariteImpl implements IScolarite{
         return liste;
         
     }
+    //=================================================================================
+        @Override
+        public List<reservation> getAllReservations() {
+            Connection con = Connexion.getConnect();
+            List<reservation> liste = new ArrayList<>();
+            try {
+                PreparedStatement ps = con.prepareStatement("SELECT R_ID, PS_ID_R, C_ID, Date_Debut, Date_Fin, Duree, Prix FROM reservation");
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    int R_ID = rs.getInt("R_ID");
+                    int PS_ID_R = rs.getInt("PS_ID_R");
+                    int C_ID = rs.getInt("C_ID");
+                    String Date_Debut = rs.getString("Date_Debut");
+                    String Date_Fin = rs.getString("Date_Fin");
+                    int Duree = rs.getInt("Duree");
+                    double Prix = rs.getDouble("Prix");
+
+                    reservation reservation = new reservation(R_ID, PS_ID_R, C_ID, Date_Debut, Date_Fin, Duree, Prix);
+                    liste.add(reservation);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return liste;
+        }
+        
+        @Override
+            public void modifierReservation(String dateDebut, String dateFin, String duree, String prix, int reservationId) {
+                Connection con = Connexion.getConnect();
+
+                try {
+                    PreparedStatement ps = con.prepareStatement("UPDATE reservation SET Date_Debut=?, Date_Fin=?, Duree=?, Prix=? WHERE R_ID=?");
+                    ps.setString(1, dateDebut);
+                    ps.setString(2, dateFin);
+                    ps.setString(3, duree);
+                    ps.setString(4, prix);
+                    ps.setInt(5, reservationId);
+
+                    ps.executeUpdate();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            public void supprimerReservation(int reservationId) {
+                Connection con = Connexion.getConnect();
+
+                try {
+                    PreparedStatement ps = con.prepareStatement("DELETE FROM reservation WHERE R_ID=?");
+                    ps.setInt(1, reservationId);
+                    ps.executeUpdate();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+
+        public List<reservation> getReservationRecherche(String rech) {
+            Connection con = Connexion.getConnect();
+            List<reservation> liste = new ArrayList<>();
+
+            try {
+                PreparedStatement ps = con.prepareStatement("SELECT * FROM reservation WHERE nom LIKE ?");
+                ps.setString(1, "%" + rech + "%");
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    reservation reservation = new reservation();
+                    reservation.setR_ID(rs.getInt(1));
+                    // Set other properties based on the table structure
+                    liste.add(reservation);
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return liste;
+        }
+
+        public reservation getReservationByID(int reservationId) {
+            Connection con = Connexion.getConnect();
+            reservation reservation = null;
+
+            try {
+                PreparedStatement ps = con.prepareStatement("SELECT * FROM reservation WHERE R_ID=?");
+                ps.setInt(1, reservationId);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    reservation = new reservation();
+                    reservation.setR_ID(rs.getInt(1));
+                    // Set other properties based on the table structure
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
+            return reservation;
+        }
+
     //=================================================================================
     @Override
     public void modifierEtudiant(String nom,String prenom,String email,String password, String role,int id)

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import dao.Connexion;
+import static presentation.Login_frame.idextract;
 /**
  *
  * @author lenovo
@@ -37,10 +38,10 @@ public class Admin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         reservation = new javax.swing.JButton();
         compte = new javax.swing.JButton();
-        recherche_c = new javax.swing.JButton();
-        modifier_c = new javax.swing.JButton();
         inscription = new javax.swing.JButton();
         gestion_c = new javax.swing.JButton();
+        List_Res = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -48,24 +49,23 @@ public class Admin extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255, 80));
 
+        reservation.setIcon(new javax.swing.ImageIcon("C:\\Users\\lenovo\\OneDrive\\Desktop\\Junk\\Parking\\Icons\\reservation (1).png")); // NOI18N
         reservation.setText("Reservation");
+        reservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reservationActionPerformed(evt);
+            }
+        });
 
+        compte.setIcon(new javax.swing.ImageIcon("C:\\Users\\lenovo\\OneDrive\\Desktop\\Junk\\Parking\\Icons\\account (1).png")); // NOI18N
         compte.setText("Compte");
-
-        recherche_c.setText("Recherche Client");
-        recherche_c.addActionListener(new java.awt.event.ActionListener() {
+        compte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                recherche_cActionPerformed(evt);
+                compteActionPerformed(evt);
             }
         });
 
-        modifier_c.setText("Modifier Client");
-        modifier_c.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifier_cActionPerformed(evt);
-            }
-        });
-
+        inscription.setIcon(new javax.swing.ImageIcon("C:\\Users\\lenovo\\OneDrive\\Desktop\\Junk\\Parking\\Icons\\Signup (1).png")); // NOI18N
         inscription.setText("Inscription");
         inscription.setToolTipText("");
         inscription.addActionListener(new java.awt.event.ActionListener() {
@@ -74,6 +74,7 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
+        gestion_c.setIcon(new javax.swing.ImageIcon("C:\\Users\\lenovo\\OneDrive\\Desktop\\Junk\\Parking\\Icons\\Gestion (1).png")); // NOI18N
         gestion_c.setText("Gestion Client");
         gestion_c.setToolTipText("");
         gestion_c.addActionListener(new java.awt.event.ActionListener() {
@@ -82,43 +83,57 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
+        List_Res.setIcon(new javax.swing.ImageIcon("C:\\Users\\lenovo\\OneDrive\\Desktop\\Junk\\Parking\\Icons\\to-do-list (1).png")); // NOI18N
+        List_Res.setText("Reservation List");
+        List_Res.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                List_ResActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel2.setText("Admin Menu");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(126, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(recherche_c, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reservation, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(List_Res, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gestion_c, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(compte, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reservation, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modifier_c, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inscription, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(117, 117, 117))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel2)
+                .addGap(52, 52, 52)
                 .addComponent(gestion_c, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(modifier_c, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(reservation, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(List_Res, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(compte, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(inscription, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(recherche_c, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 440, 470));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 270, 410));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\lenovo\\OneDrive\\Desktop\\Parking\\Login_img.jpg")); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 530));
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\lenovo\\OneDrive\\Desktop\\Junk\\Parking\\Images\\Login (1).jpg")); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -133,15 +148,20 @@ public class Admin extends javax.swing.JFrame {
         new Gestion_Client().setVisible(true);
     }//GEN-LAST:event_gestion_cActionPerformed
 
-    private void modifier_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_cActionPerformed
+    private void reservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationActionPerformed
         // TODO add your handling code here:
-        new Modifier_Client().setVisible(true);
-    }//GEN-LAST:event_modifier_cActionPerformed
+        new Reservation().setVisible(true);
+    }//GEN-LAST:event_reservationActionPerformed
 
-    private void recherche_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recherche_cActionPerformed
+    private void compteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compteActionPerformed
         // TODO add your handling code here:
-        new Recherche().setVisible(true);
-    }//GEN-LAST:event_recherche_cActionPerformed
+        new Compte_info(idextract).setVisible(true);
+    }//GEN-LAST:event_compteActionPerformed
+
+    private void List_ResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_List_ResActionPerformed
+        // TODO add your handling code here:
+        new Reservation_List().setVisible(true);
+    }//GEN-LAST:event_List_ResActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,13 +200,13 @@ public class Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton List_Res;
     private javax.swing.JButton compte;
     private javax.swing.JButton gestion_c;
     private javax.swing.JButton inscription;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton modifier_c;
-    private javax.swing.JButton recherche_c;
     private javax.swing.JButton reservation;
     // End of variables declaration//GEN-END:variables
 }
